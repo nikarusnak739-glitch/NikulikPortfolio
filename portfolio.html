@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikulik.Sites — Portfolio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  :root{
+    --bg: #0c0c0a;
+    --cream: #eee7d8;
+    --olive: #b9b48b;
+    --line: rgba(238,231,216,0.25);
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  /* NAV */
+  header{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 28px 6vw;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(6,6,4,0.6) 0%, rgba(6,6,4,0) 100%);
+  }
+  nav{ display: flex; gap: 36px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.15em; }
+  nav a{ opacity: 0.8; transition: opacity 0.25s; }
+  nav a:hover{ opacity: 1; }
+
+  /* HERO */
+  .hero{
+    height: 100vh;
+    min-height: 640px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    background: url('saturn-poster.png') center 32% / cover no-repeat;
+  }
+  .hero::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(4,4,3,0.6) 0%, rgba(0,0,0,0.05) 20%, rgba(0,0,0,0.1) 45%, rgba(8,8,6,0.92) 100%);
+  }
+  .hero-content{
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 6vw 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .hero-title{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 0.98;
+  }
+  .hero-title em{ font-style: italic; font-weight: 400; color: var(--olive); }
+  .hero-sub{
+    max-width: 300px;
+    font-size: 14px;
+    line-height: 1.7;
+    opacity: 0.75;
+    text-align: right;
+  }
+  .scroll-hint{
+    position: absolute;
+    right: 6vw;
+    top: 40%;
+    writing-mode: vertical-rl;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    z-index: 2;
+  }
+
+  section{ padding: 130px 6vw; }
+
+  .kicker{
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--olive);
+    margin-bottom: 18px;
+  }
+  h2{
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 52px);
+  }
+
+  /* ABOUT */
+  .about{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    border-top: 1px solid var(--line);
+  }
+  .about p{
+    font-size: 16px;
+    line-height: 1.9;
+    opacity: 0.8;
+    max-width: 46ch;
+  }
+  .stats{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 24px;
+    margin-top: 40px;
+  }
+  .stat b{
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .stat span{ font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6; }
+
+  /* WORK */
+  .work{ border-top: 1px solid var(--line); }
+  .work-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--line);
+  }
+  .card{
+    background: var(--bg);
+    padding: 48px 40px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+  }
+  .card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: var(--thumb);
+    background-size: cover;
+    background-position: center;
+  }
+  .card:hover::before{ opacity: 0.16; }
+  .card-num{ font-size: 12px; opacity: 0.5; letter-spacing: 0.1em; }
+  .card-tags{ font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; opacity: 0.55; margin-bottom: 10px; }
+  .card-title{
+    position: relative;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 30px;
+    z-index: 1;
+  }
+  .card-arrow{
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+    align-self: flex-end;
+    opacity: 0.6;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .card:hover .card-arrow{ transform: translate(4px,-4px); opacity: 1; }
+
+  .c1{ --thumb: radial-gradient(circle at 30% 30%, #cbb88a, #2a2318); }
+  .c2{ --thumb: radial-gradient(circle at 70% 40%, #8f9b73, #14140f); }
+  .c3{ --thumb: radial-gradient(circle at 40% 70%, #a98f6d, #0e0e0c); }
+  .c4{ --thumb: radial-gradient(circle at 60% 30%, #d9cba1, #1c1a12); }
+
+  /* CONTACT */
+  .contact{
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .contact .kicker{ text-align: center; }
+  .contact h2{ margin-bottom: 30px; }
+  .contact-link{
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(28px, 5vw, 46px);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .contact-link:hover{ color: var(--olive); border-color: var(--olive); }
+
+  footer{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 6vw 40px;
+    font-size: 12px;
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 760px){
+    nav{ display: none; }
+    .about{ grid-template-columns: 1fr; }
+    .grid{ grid-template-columns: 1fr; }
+    .hero-content{ flex-direction: column; align-items: flex-start; gap: 16px; }
+    .hero-sub{ text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <span class="scroll-hint">Scroll ↓</span>
+    <div class="hero-content">
+      <div class="hero-title">Web<br><em>Design</em><br>Portfolio</div>
+      <p class="hero-sub">Собираю сайты, в которых атмосфера важна не меньше, чем функциональность.</p>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div>
+      <span class="kicker">О себе</span>
+      <h2>Nikulik.Sites.</h2>
+    </div>
+    <div>
+      <p>Я занимаюсь веб-дизайном: от настроения и композиции до вёрстки. Мне нравится делать сайты, которые ощущаются как маленькие истории — с характером, ритмом и деталями, а не просто набором блоков.</p>
+      <div class="stats">
+        <div class="stat"><b>01</b><span>Год в дизайне</span></div>
+        <div class="stat"><b>HTML/CSS</b><span>Основной стек</span></div>
+        <div class="stat"><b>Figma</b><span>Инструмент</span></div>
+        <div class="stat"><b>∞</b><span>Идей в блокноте</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="work" id="work">
+    <div class="work-head">
+      <div>
+        <span class="kicker">Избранное</span>
+        <h2>Работы</h2>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card c1">
+        <div class="card-num">01</div>
+        <div>
+          <div class="card-tags">Landing · UI</div>
+          <div class="card-title">Saturn Atmosphere</div>
+        </div>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="card c2">
+        <div class="card-num">02</div>
+        <div>
+          <div class="card-tags">Concept · Layout</div>
+          <div class="card-title">Городской альбом</div>
+        </div>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="card c3">
+        <div class="card-num">03</div>
+        <div>
+          <div class="card-tags">Verstka · HTML/CSS</div>
+          <div class="card-title">Учебные проекты</div>
+        </div>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="card c4">
+        <div class="card-num">04</div>
+        <div>
+          <div class="card-tags">Moodboard</div>
+          <div class="card-title">Flowers &amp; Space</div>
+        </div>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <span class="kicker">Контакты</span>
+    <h2>Есть проект? Напишите мне.</h2>
+    <a class="contact-link" href="mailto:hello@nikulik.sites">hello@nikulik.sites</a>
+  </section>
+
+  <footer>
+    <span>© 2026 Nikulik.Sites.</span>
+    <span>Made with care in Figma &amp; HTML</span>
+  </footer>
+
+</body>
+</html>
